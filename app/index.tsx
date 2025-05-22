@@ -1,21 +1,19 @@
-import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { Dimensions, ImageBackground, SafeAreaView, Text, View } from 'react-native';
+import { ImageBackground, SafeAreaView, Text, View } from 'react-native';
 
-import beachImgBg from '@/assets/meditation-images/beach.webp';
 import CustomButton from '@/components/CustomButton';
+import AppGradient from '@/components/app-gradient';
 
-const { height } = Dimensions.get('window');
+const beachImgBg = require('../assets/meditation-images/beach.webp');
 
 const App = () => {
+	const router = useRouter();
 	return (
 		<View className='flex-1'>
 			<ImageBackground source={beachImgBg} resizeMode='cover' className='flex-1'>
-				<LinearGradient
-					className='flex-1'
-					colors={['rgba(0, 0, 0, 0.4)', 'rgba(0, 0, 0, 0.8)']}
-					style={{ height }}>
-					<SafeAreaView className='flex-1 mx-5 my-12 justify-between'>
+				<AppGradient colors={['rgba(0, 0, 0, 0.4)', 'rgba(0, 0, 0, 0.8)']}>
+					<SafeAreaView className='flex-1 px-1  justify-between'>
 						<View>
 							<Text className='text-white text-center text-4xl font-bold'>
 								Simple Meditation
@@ -26,11 +24,14 @@ const App = () => {
 						</View>
 
 						<View>
-							<CustomButton title='Get Started' onPress={() => alert('tap')} />
+							<CustomButton
+								title='Get Started'
+								onPress={() => router.push('/nature-meditate')}
+							/>
 						</View>
 						<StatusBar style='light' />
 					</SafeAreaView>
-				</LinearGradient>
+				</AppGradient>
 			</ImageBackground>
 		</View>
 	);
