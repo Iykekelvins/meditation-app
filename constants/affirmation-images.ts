@@ -1,4 +1,3 @@
-import californiaBackyardOne from '@/assets/affirmation-images/California-backyard-1.webp';
 import californiaBackyardTwo from '@/assets/affirmation-images/California-backyard-2.webp';
 import californiaBackyardThree from '@/assets/affirmation-images/California-backyard-3.webp';
 import californiaBackyardFour from '@/assets/affirmation-images/California-backyard-4.webp';
@@ -32,6 +31,8 @@ import tuscannyOne from '@/assets/affirmation-images/Tuscanny-1.webp';
 import tuscannyTwo from '@/assets/affirmation-images/Tuscanny-2.webp';
 import tuscannyThree from '@/assets/affirmation-images/Tuscanny-3.webp';
 import tuscannyFour from '@/assets/affirmation-images/Tuscanny-4.webp';
+
+const californiaBackyardOne = require('@/assets/affirmation-images/California-backyard-1.webp');
 
 export default {
 	californiaBackyardOne,
