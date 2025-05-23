@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { FlatList, ImageBackground, Pressable, Text, View } from 'react-native';
 import { MEDITATION_DATA } from '@/constants/meditation-data';
@@ -7,6 +8,7 @@ import AppGradient from '@/components/app-gradient';
 import MEDITATIONIMAGES from '@/constants/meditation-images';
 
 const NatureMeditate = () => {
+	const router = useRouter();
 	return (
 		<View className='flex-1'>
 			<AppGradient colors={['#161e2e', '#0a4d4a', '#766e67']}>
@@ -27,7 +29,14 @@ const NatureMeditate = () => {
 						keyExtractor={(item) => item.id.toString()}
 						showsVerticalScrollIndicator={false}
 						renderItem={({ item }) => (
-							<Pressable className='h-48 rounded-md overflow-hidden'>
+							<Pressable
+								className='h-48 rounded-md overflow-hidden'
+								onPress={() =>
+									router.push({
+										pathname: '/meditate/[id]',
+										params: { id: item.id },
+									})
+								}>
 								<ImageBackground
 									source={MEDITATIONIMAGES[item.id - 1]}
 									resizeMode='cover'
