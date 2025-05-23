@@ -48,7 +48,7 @@ const AffirmationDetailPage = () => {
 				<AppGradient colors={['rgba(0, 0, 0, 0.3)', 'rgba(0, 0, 0, 0.9)']}>
 					<Pressable
 						onPress={() => router.back()}
-						className='absolute top-16 left-6 z-10'>
+						className='absolute top-16 left-0 z-10'>
 						<AntDesign name='leftcircleo' size={50} color='white' />
 					</Pressable>
 

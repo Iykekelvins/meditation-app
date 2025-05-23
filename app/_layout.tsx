@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useFonts } from 'expo-font';
 import { Stack, SplashScreen } from 'expo-router';
 
+import TimerProvider from '@/context/TimerContext';
 import './global.css';
 
 // this will prevent the flash screen from auto hiding until loading all the assets is complete
@@ -25,10 +26,16 @@ export default function RootLayout() {
 		return null;
 	}
 	return (
-		<Stack>
-			<Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-			<Stack.Screen name='index' options={{ headerShown: false }} />
-			<Stack.Screen name='meditate/[id]' options={{ headerShown: false }} />
-		</Stack>
+		<TimerProvider>
+			<Stack>
+				<Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+				<Stack.Screen name='index' options={{ headerShown: false }} />
+				<Stack.Screen name='meditate/[id]' options={{ headerShown: false }} />
+				<Stack.Screen
+					name='(modal)/adjust-meditation-duration'
+					options={{ headerShown: false, presentation: 'modal' }}
+				/>
+			</Stack>
+		</TimerProvider>
 	);
 }

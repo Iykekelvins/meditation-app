@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { TimerContext } from '@/context/TimerContext';
 import { router, useLocalSearchParams } from 'expo-router';
 import { View, Text, ImageBackground, Pressable } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
@@ -11,8 +12,9 @@ import CustomButton from '@/components/CustomButton';
 
 const Meditate = () => {
 	const { id } = useLocalSearchParams();
+	const { duration: secondsRemaining, setDuration } = useContext(TimerContext);
 
-	const [secondsRemaining, setSecondsRemaining] = useState(10);
+	// const [secondsRemaining, setSecondsRemaining] = useState(10);
 	const [isMeditating, setIsMeditating] = useState(false);
 	const [audio, setAudio] = useState<Audio.Sound>();
 	const [isPlayingAudio, setPlayingAudio] = useState(false);
@@ -26,7 +28,10 @@ const Meditate = () => {
 	const formattedTimeSeconds = String(secondsRemaining % 60).padStart(2, '0');
 
 	const toggleMeditationSessionStatus = async () => {
-		if (secondsRemaining === 0) setSecondsRemaining(10);
+		// Only reset timer if starting a new session and timer is at 0
+		if (!isMeditating && secondsRemaining === 0) {
+			setDuration(10);
+		}
 
 		setIsMeditating(!isMeditating);
 
@@ -56,27 +61,38 @@ const Meditate = () => {
 		return sound;
 	};
 
+	const handleAdjustDuration = () => {
+		if (isMeditating) toggleMeditationSessionStatus();
+
+		router.push('/(modal)/adjust-meditation-duration');
+	};
+
 	useEffect(() => {
 		// Exit
 		if (secondsRemaining === 0) return;
 
 		const timerId = setTimeout(() => {
 			if (isMeditating) {
-				setSecondsRemaining(secondsRemaining - 1);
+				setDuration(secondsRemaining - 1);
 			}
 		}, 1000);
 
 		return () => {
 			clearTimeout(timerId);
 		};
-	}, [secondsRemaining, isMeditating]);
+	}, [secondsRemaining, isMeditating, setDuration]);
 
 	useEffect(() => {
 		return () => {
-			// setDuration(10);
 			audio?.unloadAsync();
 		};
 	}, [audio]);
+
+	useEffect(() => {
+		return () => {
+			setDuration(() => 10);
+		};
+	}, [setDuration]);
 
 	return (
 		<View className='flex-1'>
@@ -100,9 +116,11 @@ const Meditate = () => {
 					</View>
 
 					<View className='mb-5'>
+						<CustomButton title='Adjust Duration' onPress={handleAdjustDuration} />
 						<CustomButton
-							title='Start Meditation'
+							title={!isMeditating ? 'Start Meditation' : 'Stop'}
 							onPress={toggleMeditationSessionStatus}
+							containerStyles='mt-4'
 						/>
 					</View>
 				</AppGradient>
